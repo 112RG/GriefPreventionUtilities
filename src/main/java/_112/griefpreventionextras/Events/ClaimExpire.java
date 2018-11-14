@@ -18,7 +18,7 @@ public class ClaimExpire implements Listener {
 
     @EventHandler
     public void onClaimExpire(ClaimExpirationEvent event){
-        World world = FaweAPI.getWorld(event.getClaim().getGreaterBoundaryCorner().getWorld().getName());
+       /* World world = FaweAPI.getWorld(event.getClaim().getGreaterBoundaryCorner().getWorld().getName());
         EditSession editSession = new EditSessionBuilder(world).fastmode(true).build();
 
         Location corner1 = event.getClaim().getLesserBoundaryCorner();
@@ -29,7 +29,7 @@ public class ClaimExpire implements Listener {
         Region region = new CuboidRegion(pos1, pos2);
 
         editSession.regenerate(region, editSession);
-        editSession.flushQueue();
+        editSession.flushQueue();*/
     }
 
     @EventHandler
