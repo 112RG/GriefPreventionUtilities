@@ -1,0 +1,13 @@
+name: GriefPreventionExtras
+version: ${project.version}
+main: _112.griefpreventionextras.GriefPreventionExtras
+depend: [GriefPrevention, FastAsyncWorldEdit]
+authors: [_112]
+description: Adding those little bits to GP that are niche use
+commands:
+  claimcleanup:
+    description: Removes all claims inside a region and regens it
+    usage: /claimcleanup
+  saveclaims:
+    description: Copy all claims from <world1> to <world2> in the some spot. Be careful as no checks are done when the claim is pasted in
+    usage: /saveclaims <world1> <world2>
