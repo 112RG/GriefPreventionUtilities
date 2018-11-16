@@ -1,9 +1,6 @@
 package _112.griefpreventionutilities;
 
-import _112.griefpreventionutilities.Commands.ClaimCleanUp;
-import _112.griefpreventionutilities.Commands.CountClaims;
-import _112.griefpreventionutilities.Commands.DeleteClaims;
-import _112.griefpreventionutilities.Commands.SaveClaims;
+import _112.griefpreventionutilities.Commands.*;
 import _112.griefpreventionutilities.Events.ClaimExpire;
 import com.boydti.fawe.util.TaskManager;
 import org.bukkit.Bukkit;
@@ -23,6 +20,7 @@ public final class GriefPreventionUtilities extends JavaPlugin {
         this.getCommand("saveclaims").setExecutor(new SaveClaims());
         this.getCommand("edeleteclaims").setExecutor(new DeleteClaims());
         this.getCommand("countclaims").setExecutor(new CountClaims());
+        // this.getCommand("deleteallunclaimed").setExecutor(new Deleteunclaimed());
     }
 
     @Override

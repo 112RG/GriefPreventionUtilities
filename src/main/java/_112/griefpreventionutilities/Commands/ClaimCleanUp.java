@@ -12,8 +12,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 
 public class ClaimCleanUp implements CommandExecutor {
@@ -35,12 +37,18 @@ public class ClaimCleanUp implements CommandExecutor {
                 @Override
                 public void run() {
                     int count = 0;
+                    ArrayList<UUID> uuid = new ArrayList<>();
                     for (Claim claim : GriefPrevention.instance.dataStore.getClaims()) {
                         if (earliestPermissibleLastLogin.getTime().after(new Date(Bukkit.getPlayer(claim.ownerID).getLastPlayed()))) {
                             count = count + 1;
+                            if(!uuid.contains(claim.ownerID)){
+                                uuid.add(claim.ownerID);
+                                Bukkit.getLogger().info(String.format("Deleting claims for %s", claim.ownerID));
+                            }
                             continue;
                         }
                     }
+
                     gpu.sendMessage(sender, String.format("&a%s&r claims where the owner hasn't logged in. In &a%s&r days", count, args[0]));
 
                 }

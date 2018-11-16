@@ -21,3 +21,6 @@ commands:
     permission: griefpreventionutils.countclaims
     description: Counts all claims inside your current WE selection
     usage: /countclaims
+  deleteallunclaimed:
+    permission: deleteallunclaimed
+    description: Deletes all unclaimed chunks
