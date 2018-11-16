@@ -1,6 +1,6 @@
 name: GriefPreventionUtilities
 version: ${project.version}
-main: _112.griefpreventionetilities.GriefPreventionUtilities
+main: _112.griefpreventionutilities.GriefPreventionUtilities
 depend: [GriefPrevention, FastAsyncWorldEdit]
 authors: [_112]
 description: Adding those little bits to GP that are niche use
