@@ -18,22 +18,22 @@ public class DeleteClaims implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] strings) {
         if(sender instanceof Player) {
             FawePlayer fawePlayer = FawePlayer.wrap(sender);
-            World world = Bukkit.getWorld(fawePlayer.getWorld().getName());
-            Region region = new Region(fawePlayer.getSelection().getMinimumPoint(), fawePlayer.getSelection().getMaximumPoint(), world);
-            //TODO fix async WE warning?
-            TaskManager.IMP.async(new BukkitRunnable() {
-                @Override
-                public void run() {
-                    for(Claim claim : GriefPrevention.instance.dataStore.getClaims()){
-                        if(region.locationIsInRegion(claim.getLesserBoundaryCorner()) && region.locationIsInRegion(claim.getGreaterBoundaryCorner())){
-                            fawePlayer.sendMessage("Deleting claim " + claim.getID());
-                            GriefPrevention.instance.dataStore.deleteClaim(claim);
+            if (fawePlayer.getSelection() != null) {
+                World world = Bukkit.getWorld(fawePlayer.getWorld().getName());
+                Region region = new Region(fawePlayer.getSelection().getMinimumPoint(), fawePlayer.getSelection().getMaximumPoint(), world);
+                /* TODO fix async WE warning? */
+                TaskManager.IMP.async(new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        for (Claim claim : GriefPrevention.instance.dataStore.getClaims()) {
+                            if (region.locationIsInRegion(claim.getLesserBoundaryCorner()) && region.locationIsInRegion(claim.getGreaterBoundaryCorner())) {
+                                fawePlayer.sendMessage("Deleting claim " + claim.getID());
+                                GriefPrevention.instance.dataStore.deleteClaim(claim);
+                            }
                         }
                     }
-                }
-            });
-
-
+                });
+            }
         }
         return true;
     }

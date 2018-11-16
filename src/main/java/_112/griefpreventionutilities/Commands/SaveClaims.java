@@ -38,21 +38,15 @@ public class SaveClaims implements CommandExecutor {
                         for(Claim claim : GriefPrevention.instance.dataStore.getClaims()){
                             corner1 = claim.getLesserBoundaryCorner();
                             corner2 = claim.getGreaterBoundaryCorner();
+
                             world1 = Bukkit.getWorld(args[0]);
                             world2 = Bukkit.getWorld(args[1]);
+
                             if(!corner1.getWorld().getName().equals(args[0])){
                                 Bukkit.getLogger().info(MessageFormat.format("Skipping claim in {0} doesn't match specified world {1}", corner1.getWorld().getName(), world1.getName()));
                                 continue;
 
                             }
-               /*             Calendar earliestPermissibleLastLogin = Calendar.getInstance();
-                            earliestPermissibleLastLogin.add(Calendar.DATE, -GriefPrevention.instance.config_claims_expirationDays);
-                            if(earliestPermissibleLastLogin.getTime().after(new Date(Bukkit.getPlayer(claim.ownerID).getLastPlayed())))
-                            {
-                                player.getServer().getConsoleSender().sendMessage("Skipping claim as player" + claim.getOwnerName() + " hasn't logged in for " + GriefPrevention.instance.config_claims_expirationDays);
-                                continue;
-                            }
-*/
 
                                 Bukkit.getLogger().info(MessageFormat.format("Copying claim {0}:{1} from {2} {3} {4}", claim.getOwnerName(), claim.getID(), corner1.getBlockX(), corner1.getBlockY(), corner1.getBlockZ()));
 
@@ -65,14 +59,13 @@ public class SaveClaims implements CommandExecutor {
                                 BlockArrayClipboard lazyCopy = copyWorld.lazyCopy(copyRegion);
 
                                 Schematic schem = new Schematic(lazyCopy);
-                                boolean pasteAir = true;
                                 Vector to = new Vector(corner1.getBlockX(), 0, corner1.getBlockZ());
-                                schem.paste(pasteWorld, to, pasteAir);
+                                schem.paste(pasteWorld, to, true);
                                 pasteWorld.flushQueue();
 
                                 Bukkit.getLogger().info(MessageFormat.format("Copied claim {0}", claim.getID()));
-                                claims = claims - 1;
-                                done = done + 1;
+                                claims--;
+                                done++;
                                 if(done == 10){
                                     done = 0;
                                     Bukkit.getLogger().info(MessageFormat.format("{0} claims left to copy", claims));
