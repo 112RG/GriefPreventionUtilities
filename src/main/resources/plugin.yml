@@ -7,7 +7,7 @@ description: Adding those little bits to GP that are niche use
 commands:
   claimcleanup:
     permission: griefpreventionutils.claimcleanup
-    description:Removes all claims where the owner has not logged in for your specified time
+    description: Removes all claims where the owner has not logged in for your specified time
     usage: /claimcleanup <time> 
   saveclaims:
     permission: griefpreventionutils.saveclaims
