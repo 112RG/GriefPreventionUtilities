@@ -66,7 +66,7 @@ public class ClaimCleanUp implements CommandExecutor {
                             } else {
                                 toRemove.forEach(uuid -> {
                                     GriefPrevention.instance.dataStore.deleteClaimsForPlayer(uuid, false);
-                                    Bukkit.getLogger().info(String.format("Deleted claim for %s", uuid));
+                                    Bukkit.getLogger().info(String.format("Deleted claims for %s", uuid));
 
                                 });
                             }
