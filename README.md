@@ -11,6 +11,7 @@ Current command list is
 * /saveclaims <world1> <world2> - Copys all claims from world1 to world 2 (caution as the copy doesn't check world2 and just blindley copys from world1)
 * /claimcleanup <time> Removes all claims where the owner has not logged in for your specified time
 * /edeletelcaims Removes all claims inside your current WE selection
+* /countclaims Counts all claims inside your current WE selection
 
 
 Current event hooks
