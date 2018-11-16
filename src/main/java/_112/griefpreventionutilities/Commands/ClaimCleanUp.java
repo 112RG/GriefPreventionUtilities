@@ -39,13 +39,19 @@ public class ClaimCleanUp implements CommandExecutor {
                     Collection<UUID> toRemove = new ArrayList<>();
 
                     for (Claim claim : GriefPrevention.instance.dataStore.getClaims()) {
-                        if (earliestPermissibleLastLogin.getTime().after(new Date(Bukkit.getPlayer(claim.ownerID).getLastPlayed()))) {
+                        if (Bukkit.getPlayer(claim.ownerID) != null && earliestPermissibleLastLogin.getTime().after(new Date(Bukkit.getPlayer(claim.ownerID).getLastPlayed()))) {
                             count = count + 1;
                             if(!toRemove.contains(claim.ownerID)){
                                 toRemove.add(claim.ownerID);
                                 Bukkit.getLogger().info(String.format("Claims for %s will be deleted", claim.ownerID));
                             }
                             continue;
+                        } else {
+                            count = count + 1;
+                            if(!toRemove.contains(claim.ownerID)){
+                                toRemove.add(claim.ownerID);
+                                Bukkit.getLogger().info(String.format("Claims for %s will be deleted", claim.ownerID));
+                            }
                         }
                     }
                     switch(args[1]) {
@@ -60,6 +66,8 @@ public class ClaimCleanUp implements CommandExecutor {
                             } else {
                                 toRemove.forEach(uuid -> {
                                     GriefPrevention.instance.dataStore.deleteClaimsForPlayer(uuid, false);
+                                    Bukkit.getLogger().info(String.format("Deleted claim for %s", uuid));
+
                                 });
                             }
                             break;
