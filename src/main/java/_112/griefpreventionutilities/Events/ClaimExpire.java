@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 public class ClaimExpire implements Listener {
 
     @EventHandler
-    public void onClaimExpire(ClaimExpirationEvent event){
+    public void onClaimExpire(ClaimExpirationEvent event) {
        /* World world = FaweAPI.getWorld(event.getClaim().getGreaterBoundaryCorner().getWorld().getName());
         EditSession editSession = new EditSessionBuilder(world).fastmode(true).build();
 
@@ -24,7 +24,7 @@ public class ClaimExpire implements Listener {
     }
 
     @EventHandler
-    public void onClaimDelete(ClaimDeletedEvent event){
+    public void onClaimDelete(ClaimDeletedEvent event) {
 
     }
 }

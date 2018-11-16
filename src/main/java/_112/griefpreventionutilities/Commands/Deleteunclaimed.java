@@ -14,10 +14,10 @@ import org.bukkit.command.CommandSender;
 public class Deleteunclaimed implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(Bukkit.getServer().getWorld(args[0]) != null){
+        if (Bukkit.getServer().getWorld(args[0]) != null) {
             FaweQueue faweQueue = SetQueue.IMP.getNewQueue(args[0], true, false);
             MCAQueue mcaQueue = new MCAQueue(faweQueue);
-            DeleteUnclaimedFilter  deleteUnclaimedFilter = new DeleteUnclaimedFilter(FawePlayer.wrap(sender).getWorld(), 60000, 60000, 60000);
+            DeleteUnclaimedFilter deleteUnclaimedFilter = new DeleteUnclaimedFilter(FawePlayer.wrap(sender).getWorld(), 60000, 60000, 60000);
             MCAFilter mcaFilter = mcaQueue.filterWorld(deleteUnclaimedFilter);
             Bukkit.getLogger().info(String.valueOf(((DeleteUnclaimedFilter) mcaFilter).getTotal()));
             mcaQueue.flush();

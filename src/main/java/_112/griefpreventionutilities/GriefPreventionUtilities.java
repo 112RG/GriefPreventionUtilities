@@ -28,15 +28,16 @@ public final class GriefPreventionUtilities extends JavaPlugin {
         plugin = null;
     }
 
-     public void sendMessage(CommandSender p, String message){
-         TaskManager.IMP.async(new BukkitRunnable() {
-             @Override
-             public void run() {
-                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&C&LGPU &F&L>&r " + message));
+    public void sendMessage(CommandSender p, String message) {
+        TaskManager.IMP.async(new BukkitRunnable() {
+            @Override
+            public void run() {
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&C&LGPU &F&L>&r " + message));
 
-             }
-         });
-     }
+            }
+        });
+    }
+
     public static GriefPreventionUtilities getPlugin() {
         return plugin;
     }

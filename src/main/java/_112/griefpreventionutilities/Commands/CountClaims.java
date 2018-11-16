@@ -17,28 +17,28 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class CountClaims implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] strings) {
-        if(sender instanceof Player) {
+        if (sender instanceof Player) {
             GriefPreventionUtilities gpu = GriefPreventionUtilities.getPlugin();
             FawePlayer fawePlayer = FawePlayer.wrap(sender);
             World world = Bukkit.getWorld(fawePlayer.getWorld().getName());
             if (fawePlayer.getSelection() != null) {
-            Region region = new Region(fawePlayer.getSelection().getMinimumPoint(), fawePlayer.getSelection().getMaximumPoint(), world);
-            /* TODO fix async WE warning? */
-            TaskManager.IMP.async(new BukkitRunnable() {
-                @Override
-                public void run() {
-                    int count = 0;
-                    for (Claim claim : GriefPrevention.instance.dataStore.getClaims()) {
-                        if (region.locationIsInRegion(claim.getLesserBoundaryCorner()) && region.locationIsInRegion(claim.getGreaterBoundaryCorner())) {
-                            count++;
+                Region region = new Region(fawePlayer.getSelection().getMinimumPoint(), fawePlayer.getSelection().getMaximumPoint(), world);
+                /* TODO fix async WE warning? */
+                TaskManager.IMP.async(new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        int count = 0;
+                        for (Claim claim : GriefPrevention.instance.dataStore.getClaims()) {
+                            if (region.locationIsInRegion(claim.getLesserBoundaryCorner()) && region.locationIsInRegion(claim.getGreaterBoundaryCorner())) {
+                                count++;
+                            }
                         }
+
+                        gpu.sendMessage(sender, String.format("There is &a%s&r claims in your current selection", count));
                     }
+                });
 
-                    gpu.sendMessage(sender, String.format("There is &a%s&r claims in your current selection", count));
-                }
-            });
-
-        } else{
+            } else {
                 gpu.sendMessage(sender, "Please make a WE selection");
             }
         }

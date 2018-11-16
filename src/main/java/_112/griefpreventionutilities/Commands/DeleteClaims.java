@@ -20,7 +20,7 @@ import java.util.Collection;
 public class DeleteClaims implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] strings) {
-        if(sender instanceof Player) {
+        if (sender instanceof Player) {
             GriefPreventionUtilities gpu = GriefPreventionUtilities.getPlugin();
             FawePlayer fawePlayer = FawePlayer.wrap(sender);
             if (fawePlayer.getSelection() != null) {
@@ -35,7 +35,7 @@ public class DeleteClaims implements CommandExecutor {
                                 toRemove.add(claim);
                             }
                         }
-                        if(toRemove.size() == 0){
+                        if (toRemove.size() == 0) {
                             gpu.sendMessage(sender, "No claims inside region");
                         }
                         toRemove.forEach(claim -> {
