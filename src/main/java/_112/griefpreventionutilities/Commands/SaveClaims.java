@@ -63,6 +63,7 @@ public class SaveClaims implements CommandExecutor {
                                 Schematic schem = new Schematic(lazyCopy);
                                 Vector to = new Vector(corner1.getBlockX(), 0, corner1.getBlockZ());
                                 schem.paste(pasteWorld, to, true);
+                                pasteWorld.fixLighting(copyRegion.polygonize(1000000));
                                 pasteWorld.flushQueue();
 
                                 Bukkit.getLogger().info(MessageFormat.format("Copied claim {0}", claim.getID()));
