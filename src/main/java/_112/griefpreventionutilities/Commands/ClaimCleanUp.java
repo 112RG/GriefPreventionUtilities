@@ -1,4 +1,4 @@
-package _112.griefpreventionextras.Commands;
+package _112.griefpreventionutilities.Commands;
 
 import com.boydti.fawe.util.TaskManager;
 import me.ryanhamshire.GriefPrevention.Claim;

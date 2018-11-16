@@ -1,6 +1,6 @@
-package _112.griefpreventionextras.Commands;
+package _112.griefpreventionutilities.Commands;
 
-import _112.griefpreventionextras.Util.Region;
+import _112.griefpreventionutilities.Util.Region;
 import com.boydti.fawe.object.FawePlayer;
 import com.boydti.fawe.util.TaskManager;
 import me.ryanhamshire.GriefPrevention.Claim;

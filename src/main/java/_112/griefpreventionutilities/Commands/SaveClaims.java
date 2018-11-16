@@ -1,4 +1,4 @@
-package _112.griefpreventionextras.Commands;
+package _112.griefpreventionutilities.Commands;
 
 import com.boydti.fawe.object.schematic.Schematic;
 import com.boydti.fawe.util.EditSessionBuilder;

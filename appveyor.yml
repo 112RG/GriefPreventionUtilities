@@ -31,5 +31,5 @@ cache:
   - C:\maven\
   - C:\Users\appveyor\.m2
 artifacts:
-- path: target/GriefPreventionExtras-*-DEV.jar
-  name: GriefPreventionExtras
+- path: target/GriefPreventionUtilities-*-DEV.jar
+  name: GriefPreventionUtilities

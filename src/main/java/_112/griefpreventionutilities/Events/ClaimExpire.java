@@ -1,16 +1,7 @@
-package _112.griefpreventionextras.Events;
+package _112.griefpreventionutilities.Events;
 
-import com.boydti.fawe.FaweAPI;
-import com.boydti.fawe.util.EditSessionBuilder;
-
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.Vector;
-import com.sk89q.worldedit.regions.CuboidRegion;
-import com.sk89q.worldedit.regions.Region;
-import com.sk89q.worldedit.world.World;
 import me.ryanhamshire.GriefPrevention.events.ClaimDeletedEvent;
 import me.ryanhamshire.GriefPrevention.events.ClaimExpirationEvent;
-import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 

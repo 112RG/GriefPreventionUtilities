@@ -1,4 +1,4 @@
-package _112.griefpreventionextras.Util;
+package _112.griefpreventionutilities.Util;
 
 import com.sk89q.worldedit.Vector;
 import org.bukkit.Location;

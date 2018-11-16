@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>_112</groupId>
-    <artifactId>GriefPreventionExtras</artifactId>
+    <artifactId>GriefPreventionUtilities</artifactId>
     <version>0.2-DEV</version>
     <packaging>jar</packaging>
 
-    <name>GriefPreventionExtras</name>
+    <name>GriefPreventionUtilities</name>
 
-    <description>A GP toolkit with useful GP extras</description>
+    <description>A GP toolkit with useful GP utilities</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
