@@ -41,7 +41,6 @@ public class ClaimCleanUp implements CommandExecutor {
                             continue;
                         }
                     }
-                    // player.sendRawMessage("There are " + count + " claims where the owner hasn't logged in " + args[0] + " days");
                     gpu.sendMessage(sender, String.format("&a%s&r claims where the owner hasn't logged in. In &a%s&r days", count, args[0]));
 
                 }

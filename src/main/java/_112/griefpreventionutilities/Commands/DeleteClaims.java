@@ -29,7 +29,6 @@ public class DeleteClaims implements CommandExecutor {
                     public void run() {
                         for (Claim claim : GriefPrevention.instance.dataStore.getClaims()) {
                             if (region.locationIsInRegion(claim.getLesserBoundaryCorner()) && region.locationIsInRegion(claim.getGreaterBoundaryCorner())) {
-                                //fawePlayer.sendMessage("Deleting claim " + claim.getID());
                                 gpu.sendMessage(sender, String.format("Deleting claim &a%s", claim.getID()));
                                 GriefPrevention.instance.dataStore.deleteClaim(claim);
                             }
