@@ -18,7 +18,7 @@ Current command list is
 
 Current event hooks
 
-* ClaimExpire - When a claim expires the area of the claim is regenerated using WorldEdit
+* ClaimExpire - When a claim expires the area of the claim is regenerated using WorldEdit -- Currently disabled
 
 
 
