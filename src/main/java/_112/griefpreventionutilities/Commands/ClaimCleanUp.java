@@ -1,5 +1,6 @@
 package _112.griefpreventionutilities.Commands;
 
+import _112.griefpreventionutilities.GriefPreventionUtilities;
 import com.boydti.fawe.util.TaskManager;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
@@ -8,6 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Calendar;
@@ -19,8 +21,14 @@ public class ClaimCleanUp implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player) {
-            Player player = (Player) sender;
-            if (args[0] != null) {
+            GriefPreventionUtilities gpu = GriefPreventionUtilities.getPlugin();
+            if (args.length == 1 && args[0] != null) {
+                try{
+                    Integer.parseInt(args[0]);
+                } catch (NumberFormatException e){
+                    gpu.sendMessage(sender, String.format("&c%s&r is not a integer", args[0]));
+                    return true;
+                }
             Calendar earliestPermissibleLastLogin = Calendar.getInstance();
             earliestPermissibleLastLogin.add(Calendar.DATE, -GriefPrevention.instance.config_claims_expirationDays);
             TaskManager.IMP.async(new BukkitRunnable() {
@@ -33,11 +41,13 @@ public class ClaimCleanUp implements CommandExecutor {
                             continue;
                         }
                     }
-                    player.sendRawMessage("There are " + count + " claims where the owner hasn't logged in " + args[0] + " days");
+                    // player.sendRawMessage("There are " + count + " claims where the owner hasn't logged in " + args[0] + " days");
+                    gpu.sendMessage(sender, String.format("&a%s&r claims where the owner hasn't logged in. In &a%s&r days", count, args[0]));
+
                 }
             });
         } else {
-                player.sendRawMessage("Please specify a number of days /claimcleanup <number of days>");
+                gpu.sendMessage(sender,"Please specify numfer of days /claimcleanup <number of days>");
             }
         }
         return true;

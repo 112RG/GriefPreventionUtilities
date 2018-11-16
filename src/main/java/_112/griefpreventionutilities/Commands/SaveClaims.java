@@ -1,5 +1,6 @@
 package _112.griefpreventionutilities.Commands;
 
+import _112.griefpreventionutilities.GriefPreventionUtilities;
 import com.boydti.fawe.object.schematic.Schematic;
 import com.boydti.fawe.util.EditSessionBuilder;
 import com.boydti.fawe.util.TaskManager;
@@ -23,8 +24,9 @@ public class SaveClaims implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player){
+            GriefPreventionUtilities gpu = GriefPreventionUtilities.getPlugin();
             Player player = (Player) sender;
-            if(args[0] != null && args[1] != null){
+            if(args.length == 2 && args[0] != null && args[1] != null){
             if(player.getServer().getWorld(args[0]) != null && player.getServer().getWorld(args[1]) != null){
                         TaskManager.IMP.async(new Runnable() {
                     @Override
@@ -78,12 +80,12 @@ public class SaveClaims implements CommandExecutor {
                 });
 
             } else {
-                player.sendRawMessage("A world you specified doesn't exist");
+                gpu.sendMessage(sender,"A world you specified doesn't exist");
                 return true;
             }
         }
             else {
-                player.sendRawMessage("Please specify two worlds /saveclaims <world1> <world2>");
+                gpu.sendMessage(sender,"Please specify two worlds /saveclaims <world1> <world2>");
                 return true;
             }
 

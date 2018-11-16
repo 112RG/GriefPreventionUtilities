@@ -1,5 +1,6 @@
 package _112.griefpreventionutilities.Commands;
 
+import _112.griefpreventionutilities.GriefPreventionUtilities;
 import _112.griefpreventionutilities.Util.Region;
 import com.boydti.fawe.object.FawePlayer;
 import com.boydti.fawe.util.TaskManager;
@@ -17,6 +18,7 @@ public class DeleteClaims implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] strings) {
         if(sender instanceof Player) {
+            GriefPreventionUtilities gpu = GriefPreventionUtilities.getPlugin();
             FawePlayer fawePlayer = FawePlayer.wrap(sender);
             if (fawePlayer.getSelection() != null) {
                 World world = Bukkit.getWorld(fawePlayer.getWorld().getName());
@@ -27,7 +29,8 @@ public class DeleteClaims implements CommandExecutor {
                     public void run() {
                         for (Claim claim : GriefPrevention.instance.dataStore.getClaims()) {
                             if (region.locationIsInRegion(claim.getLesserBoundaryCorner()) && region.locationIsInRegion(claim.getGreaterBoundaryCorner())) {
-                                fawePlayer.sendMessage("Deleting claim " + claim.getID());
+                                //fawePlayer.sendMessage("Deleting claim " + claim.getID());
+                                gpu.sendMessage(sender, String.format("Deleting claim &a%s", claim.getID()));
                                 GriefPrevention.instance.dataStore.deleteClaim(claim);
                             }
                         }

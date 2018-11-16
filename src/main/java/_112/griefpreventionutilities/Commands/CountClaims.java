@@ -1,5 +1,6 @@
 package _112.griefpreventionutilities.Commands;
 
+import _112.griefpreventionutilities.GriefPreventionUtilities;
 import _112.griefpreventionutilities.Util.Region;
 import com.boydti.fawe.object.FawePlayer;
 import com.boydti.fawe.util.TaskManager;
@@ -19,6 +20,7 @@ public class CountClaims implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] strings) {
         if(sender instanceof Player) {
+            GriefPreventionUtilities gpu = GriefPreventionUtilities.getPlugin();
             FawePlayer fawePlayer = FawePlayer.wrap(sender);
             World world = Bukkit.getWorld(fawePlayer.getWorld().getName());
             if (fawePlayer.getSelection() != null) {
@@ -33,11 +35,14 @@ public class CountClaims implements CommandExecutor {
                             count++;
                         }
                     }
-                    fawePlayer.sendMessage("There are " + count + " in your current selection");
+
+                    gpu.sendMessage(sender, String.format("There is &a%s&r claims in your current selection", count));
                 }
             });
 
-        }
+        } else{
+                gpu.sendMessage(sender, "Please make a WE selection");
+            }
         }
         return true;
     }
