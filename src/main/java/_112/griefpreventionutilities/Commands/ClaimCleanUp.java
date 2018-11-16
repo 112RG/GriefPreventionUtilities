@@ -52,9 +52,9 @@ public class ClaimCleanUp implements CommandExecutor {
                     if(toRemove.size() == 0){
                         gpu.sendMessage(sender, "No claims to remove");
                     }
-                    if(args[1].equals("check")){
+                    if(args[1].equals("true")){
                         gpu.sendMessage(sender, "Check was specified please check console for list of claims what will be deleted");
-                    } else {
+                    } else if (args[1].equals("false")) {
                         toRemove.forEach(uuid -> {
                             GriefPrevention.instance.dataStore.deleteClaimsForPlayer(uuid, false);
                         });
