@@ -9,14 +9,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Collection;
 import java.util.UUID;
-
+import java.util.Date;
 
 public class ClaimCleanUp implements CommandExecutor {
 
@@ -24,7 +23,7 @@ public class ClaimCleanUp implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player) {
             GriefPreventionUtilities gpu = GriefPreventionUtilities.getPlugin();
-            if (args.length == 1 && args[0] != null) {
+            if (args.length >= 1 && args[0] != null) {
                 try{
                     Integer.parseInt(args[0]);
                 } catch (NumberFormatException e){
@@ -37,19 +36,29 @@ public class ClaimCleanUp implements CommandExecutor {
                 @Override
                 public void run() {
                     int count = 0;
-                    ArrayList<UUID> uuid = new ArrayList<>();
+                    Collection<UUID> toRemove = new ArrayList<>();
+
                     for (Claim claim : GriefPrevention.instance.dataStore.getClaims()) {
                         if (earliestPermissibleLastLogin.getTime().after(new Date(Bukkit.getPlayer(claim.ownerID).getLastPlayed()))) {
                             count = count + 1;
-                            if(!uuid.contains(claim.ownerID)){
-                                uuid.add(claim.ownerID);
-                                Bukkit.getLogger().info(String.format("Deleting claims for %s", claim.ownerID));
+                            if(!toRemove.contains(claim.ownerID)){
+                                toRemove.add(claim.ownerID);
+                                Bukkit.getLogger().info(String.format("Claims for %s will be deleted", claim.ownerID));
                             }
                             continue;
                         }
                     }
 
-                    gpu.sendMessage(sender, String.format("&a%s&r claims where the owner hasn't logged in. In &a%s&r days", count, args[0]));
+                    if(toRemove.size() == 0){
+                        gpu.sendMessage(sender, "No claims to remove");
+                    }
+                    if(args[1].equals("check")){
+                        gpu.sendMessage(sender, "Check was specified please check console for list of claims what will be deleted");
+                    } else {
+                        toRemove.forEach(uuid -> {
+                            GriefPrevention.instance.dataStore.deleteClaimsForPlayer(uuid, false);
+                        });
+                    }
 
                 }
             });
