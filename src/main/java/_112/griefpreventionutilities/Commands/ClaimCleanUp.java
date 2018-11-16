@@ -48,18 +48,24 @@ public class ClaimCleanUp implements CommandExecutor {
                             continue;
                         }
                     }
-
-                    if(toRemove.size() == 0){
-                        gpu.sendMessage(sender, "No claims to remove");
+                    switch(args[1]) {
+                        case "check":
+                            gpu.sendMessage(sender, "Check was specified please check console for list of claims what will be deleted");
+                            break;
+                        case "regen":
+                            break;
+                        case "delete":
+                            if(toRemove.size() == 0){
+                                gpu.sendMessage(sender, "No claims to remove");
+                            } else {
+                                toRemove.forEach(uuid -> {
+                                    GriefPrevention.instance.dataStore.deleteClaimsForPlayer(uuid, false);
+                                });
+                            }
+                            break;
+                        default:
+                            break;
                     }
-                    if(args[1].equals("true")){
-                        gpu.sendMessage(sender, "Check was specified please check console for list of claims what will be deleted");
-                    } else if (args[1].equals("false")) {
-                        toRemove.forEach(uuid -> {
-                            GriefPrevention.instance.dataStore.deleteClaimsForPlayer(uuid, false);
-                        });
-                    }
-
                 }
             });
         } else {
