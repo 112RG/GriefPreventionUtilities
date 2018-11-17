@@ -18,7 +18,10 @@ Current command list is
 
 Current event hooks
 
-* ClaimExpire - When a claim expires the area of the claim is regenerated using WorldEdit -- Currently disabled
+* ClaimExpire - When a claim expires the area of the claim is regenerated using WorldEdit 
+    Actions
+    * Regen - Regenerates the claims when it expires using WE
+    * Snapshot - Loads the WE snapshot of the claim from your seed world
 
 
 
