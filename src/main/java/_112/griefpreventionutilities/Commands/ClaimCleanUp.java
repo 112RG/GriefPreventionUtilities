@@ -38,7 +38,6 @@ public class ClaimCleanUp implements CommandExecutor {
                     @Override
                     public void run() {
                         Collection<UUID> toRemove = new ArrayList<>();
-
                         for (Claim claim : GriefPrevention.instance.dataStore.getClaims()) {
                             if (Bukkit.getPlayer(claim.ownerID) != null && earliestPermissibleLastLogin.getTime().after(new Date(Bukkit.getPlayer(claim.ownerID).getLastPlayed()))) {
                                 if (!toRemove.contains(claim.ownerID)) {
@@ -58,8 +57,6 @@ public class ClaimCleanUp implements CommandExecutor {
                         else action = args[1];
                         switch (action) {
                             case "check":
-                                gpu.logMessage(String.format("Total of %s/%s will be deleted", toRemove.size(), GriefPrevention.instance.dataStore.getClaims().size()));
-
                                 gpu.sendMessage(sender, "Check was specified please check console for list of claims what will be deleted");
                                 break;
                             case "regen":
