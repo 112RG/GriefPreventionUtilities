@@ -35,7 +35,7 @@ public class ClaimCleanUp implements CommandExecutor {
                 Calendar earliestPermissibleLastLogin = Calendar.getInstance();
 
                 earliestPermissibleLastLogin.add(Calendar.DATE, -Integer.parseInt(args[0]));
-                TaskManager.IMP.taskNowMain(new BukkitRunnable() {
+                TaskManager.IMP.async(new BukkitRunnable() {
                     @Override
                     public void run() {
                         String action;
@@ -64,7 +64,6 @@ public class ClaimCleanUp implements CommandExecutor {
                                 }
                             }
                         }
-
                         switch (action) {
                             case "check":
                                 gpu.sendMessage(sender, String.format("Total of %s:%s will be deleted", removed, count));
@@ -73,6 +72,11 @@ public class ClaimCleanUp implements CommandExecutor {
                             case "delete":
                                 if (toRemove.size() != 0) {
                                     toRemove.forEach(remove -> {
+                                        try {
+                                            Thread.sleep(2);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
                                         GriefPrevention.instance.dataStore.deleteClaim(remove);
                                         gpu.logMessage(String.format("Deleting claim %s", remove.getID()));
                                     });
