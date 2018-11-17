@@ -35,7 +35,7 @@ public class ClaimCleanUp implements CommandExecutor {
                 Calendar earliestPermissibleLastLogin = Calendar.getInstance();
 
                 earliestPermissibleLastLogin.add(Calendar.DATE, -Integer.parseInt(args[0]));
-                TaskManager.IMP.async(new BukkitRunnable() {
+                TaskManager.IMP.taskNowMain(new BukkitRunnable() {
                     @Override
                     public void run() {
                         String action;
@@ -50,7 +50,6 @@ public class ClaimCleanUp implements CommandExecutor {
                         Collection<Claim> claims = GriefPrevention.instance.dataStore.getClaims();
                         for (Claim claim : claims) {
                             count++;
-
                             if (Bukkit.getPlayer(claim.ownerID) != null && earliestPermissibleLastLogin.getTime().after(new Date(Bukkit.getPlayer(claim.ownerID).getLastPlayed()))) {
                                 removed++;
                                 if (!toRemove.contains(claim.ownerID) && action.equals("delete")) {
@@ -72,10 +71,15 @@ public class ClaimCleanUp implements CommandExecutor {
                                 gpu.sendMessage(sender, "Check was specified please check console for list of claims what will be deleted");
                                 break;
                             case "delete":
-                                toRemove.forEach(remove -> {
-                                    GriefPrevention.instance.dataStore.deleteClaim(remove);
-                                    gpu.logMessage(String.format("Deleting claim %s", remove.getID()));
-                                });
+                                if (toRemove.size() != 0) {
+                                    toRemove.forEach(remove -> {
+                                        GriefPrevention.instance.dataStore.deleteClaim(remove);
+                                        gpu.logMessage(String.format("Deleting claim %s", remove.getID()));
+                                    });
+                                } else {
+                                    gpu.sendMessage(sender, "No claims to delete");
+                                }
+
                                 break;
                             case "regen":
                                 break;
