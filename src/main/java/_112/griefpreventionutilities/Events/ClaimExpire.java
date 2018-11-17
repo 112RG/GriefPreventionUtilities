@@ -42,7 +42,7 @@ public class ClaimExpire implements Listener {
 
     }
 
-    @EventHandler
+    /*@EventHandler
     public void onClaimDelete(ClaimDeletedEvent event) {
         String action;
         if(GriefPreventionUtilities.getPlugin().getConfig().get("claimexpire.action") != null){
@@ -70,5 +70,5 @@ public class ClaimExpire implements Listener {
         else if(action.equals("restore")){
 
         }
-    }
+    }*/
 }
