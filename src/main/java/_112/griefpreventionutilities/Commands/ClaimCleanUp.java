@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -47,26 +48,40 @@ public class ClaimCleanUp implements CommandExecutor {
                         Integer removed = 0;
                         Collection<Claim> toRemove = new ArrayList<>();
                         Collection<Claim> claims = GriefPrevention.instance.dataStore.getClaims();
+
+                        long timeNow = Instant.now().toEpochMilli();
+                        long minusTime = ((long) Integer.parseInt(args[0]));
+                        minusTime *= 86400000; //days -> milliseconds
+                        long borderTime = timeNow - minusTime;
                         for (Claim claim : claims) {
                             count++;
-                            if (Bukkit.getPlayer(claim.ownerID) != null && earliestPermissibleLastLogin.getTime().after(new Date(Bukkit.getPlayer(claim.ownerID).getLastPlayed()))) {
-                                removed++;
-                                if (!toRemove.contains(claim.ownerID) && action.equals("delete")) {
-                                    toRemove.add(claim);
-                                    gpu.logMessage(String.format("Claims for %s deleted", claim.ownerID));
+                            try {
+                                Bukkit.getOfflinePlayer(claim.ownerID);
+                            } catch (IllegalArgumentException e) {
+                                if (!claim.isAdminClaim()) {
+                                    gpu.sendMessage(sender, String.format("Invalid owner ID - coordinates %s", claim.getLesserBoundaryCorner().toString()));
+                                    removed++;
+                                    if (action.equals("delete")) {
+                                        toRemove.add(claim);
+                                    }
                                 }
-                            } else if (Bukkit.getPlayer(claim.ownerID) == null) {
+                                continue;
+                            }
+                            if (!Bukkit.getOfflinePlayer(claim.ownerID).hasPlayedBefore()) {
                                 removed++;
-                                if (!toRemove.contains(claim.ownerID) && action.equals("delete")) {
+                                if (action.equals("delete")) {
                                     toRemove.add(claim);
-                                    gpu.logMessage(String.format("Claims for %s deleted", claim.ownerID));
+                                }
+                            } else if (Bukkit.getOfflinePlayer(claim.ownerID).getLastPlayed() < borderTime) {
+                                removed++;
+                                if (action.equals("delete")) {
+                                    toRemove.add(claim);
                                 }
                             }
                         }
                         switch (action) {
                             case "check":
                                 gpu.sendMessage(sender, String.format("Total of %s:%s will be deleted", removed, count));
-                                gpu.sendMessage(sender, "Check was specified please check console for list of claims what will be deleted");
                                 break;
                             case "delete":
                                 if (toRemove.size() != 0) {
@@ -77,11 +92,11 @@ public class ClaimCleanUp implements CommandExecutor {
                                             e.printStackTrace();
                                         }
                                         GriefPrevention.instance.dataStore.deleteClaim(remove);
-                                        gpu.logMessage(String.format("Deleting claim %s", remove.getID()));
                                     });
                                 } else {
                                     gpu.sendMessage(sender, "No claims to delete");
                                 }
+                                gpu.sendMessage(sender, "Deleted " + removed.toString() + " claims.");
 
                                 break;
                             case "regen":
@@ -92,7 +107,7 @@ public class ClaimCleanUp implements CommandExecutor {
                     }
                 });
             } else {
-                gpu.sendMessage(sender, "Please specify number of days /claimcleanup <number of days>");
+                gpu.sendMessage(sender, "Please specify number of days /claimcleanup <number of days> [check/delete]");
             }
         }
         return true;
