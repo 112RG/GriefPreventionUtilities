@@ -14,7 +14,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.UUID;
 import java.util.Date;
 
 public class ClaimCleanUp implements CommandExecutor {

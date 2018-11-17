@@ -1,3 +1,4 @@
 claimexpire:
+  enabled: false
   #Actions include regen/restore
   action: "regen"

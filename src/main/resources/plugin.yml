@@ -8,7 +8,7 @@ commands:
   claimcleanup:
     permission: griefpreventionutils.claimcleanup
     description: Removes all claims where the owner has not logged in for your specified time
-    usage: /claimcleanup <time> 
+    usage: /claimcleanup <time>
   saveclaims:
     permission: griefpreventionutils.saveclaims
     description: Copy all claims from <world1> to <world2> in the some spot. Be careful as no checks are done when the claim is pasted in

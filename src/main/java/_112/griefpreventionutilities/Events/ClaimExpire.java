@@ -9,7 +9,6 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.world.World;
 import me.ryanhamshire.GriefPrevention.Claim;
-import me.ryanhamshire.GriefPrevention.events.ClaimDeletedEvent;
 import me.ryanhamshire.GriefPrevention.events.ClaimExpirationEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -20,6 +19,7 @@ public class ClaimExpire implements Listener {
 
     @EventHandler
     public void onClaimExpire(ClaimExpirationEvent event) {
+        if(GriefPreventionUtilities.getPlugin().getConfig().getBoolean("claimexpire.enabled")){
         if(GriefPreventionUtilities.getPlugin().getConfig().get("claimexpire.action").equals("regen")){
             Claim claim = event.getClaim();
             Bukkit.getLogger().info(String.format("Claim %s:%s expired running regen at %s", claim.getOwnerName(), claim.getID().toString(), claim.getLesserBoundaryCorner().toString()));
@@ -40,6 +40,7 @@ public class ClaimExpire implements Listener {
 
         }
 
+    }
     }
 
     /*@EventHandler
