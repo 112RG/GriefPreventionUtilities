@@ -38,42 +38,46 @@ public class ClaimCleanUp implements CommandExecutor {
                 TaskManager.IMP.async(new BukkitRunnable() {
                     @Override
                     public void run() {
-                        Collection<UUID> toRemove = new ArrayList<>();
-                        for (Claim claim : GriefPrevention.instance.dataStore.getClaims()) {
-                           if (Bukkit.getPlayer(claim.ownerID) != null && earliestPermissibleLastLogin.getTime().after(new Date(Bukkit.getPlayer(claim.ownerID).getLastPlayed()))) {
-                                if (!toRemove.contains(claim.ownerID)) {
-                                    toRemove.add(claim.ownerID);
-                                    gpu.logMessage(String.format("Claims for %s will be deleted", claim.ownerID));
-                                }
-                                continue;
-                            } else if(Bukkit.getPlayer(claim.ownerID) == null) {
-                                if (!toRemove.contains(claim.ownerID)) {
-                                    toRemove.add(claim.ownerID);
-                                    gpu.logMessage(String.format("Claims for %s will be deleted", claim.ownerID));
-                                }
-                            }
-                        }
                         String action;
                         if (args.length != 2) action = "check";
                         else action = args[1];
+
+                        gpu.sendMessage(sender, "Finding claims to delete");
+
+                        Integer count = 0;
+                        Integer removed = 0;
+                        Collection<Claim> toRemove = new ArrayList<>();
+                        Collection<Claim> claims = GriefPrevention.instance.dataStore.getClaims();
+                        for (Claim claim : claims) {
+                            count++;
+
+                            if (Bukkit.getPlayer(claim.ownerID) != null && earliestPermissibleLastLogin.getTime().after(new Date(Bukkit.getPlayer(claim.ownerID).getLastPlayed()))) {
+                                removed++;
+                                if (!toRemove.contains(claim.ownerID) && action.equals("delete")) {
+                                    toRemove.add(claim);
+                                    gpu.logMessage(String.format("Claims for %s deleted", claim.ownerID));
+                                }
+                            } else if (Bukkit.getPlayer(claim.ownerID) == null) {
+                                removed++;
+                                if (!toRemove.contains(claim.ownerID) && action.equals("delete")) {
+                                    toRemove.add(claim);
+                                    gpu.logMessage(String.format("Claims for %s deleted", claim.ownerID));
+                                }
+                            }
+                        }
+
                         switch (action) {
                             case "check":
-                                gpu.sendMessage(sender, String.format("Total of %s:%s will be deleted", toRemove.size(), GriefPrevention.instance.dataStore.getClaims().size()));
+                                gpu.sendMessage(sender, String.format("Total of %s:%s will be deleted", removed, count));
                                 gpu.sendMessage(sender, "Check was specified please check console for list of claims what will be deleted");
                                 break;
-                            case "regen":
-                                break;
                             case "delete":
-                                if (toRemove.size() == 0) {
-                                    gpu.sendMessage(sender, "No claims to remove");
-                                } else {
-                                    gpu.sendMessage(sender, String.format("Total of %s:%s will be deleted", toRemove.size(), GriefPrevention.instance.dataStore.getClaims().size()));
-                                    toRemove.forEach(uuid -> {
-                                        GriefPrevention.instance.dataStore.deleteClaimsForPlayer(uuid, false);
-                                        gpu.logMessage(String.format("Deleted claims for %s", uuid));
-
-                                    });
-                                }
+                                toRemove.forEach(remove -> {
+                                    GriefPrevention.instance.dataStore.deleteClaim(remove);
+                                    gpu.logMessage(String.format("Deleting claim %s", remove.getID()));
+                                });
+                                break;
+                            case "regen":
                                 break;
                             default:
                                 break;
