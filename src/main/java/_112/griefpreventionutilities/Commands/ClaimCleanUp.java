@@ -37,22 +37,19 @@ public class ClaimCleanUp implements CommandExecutor {
                 TaskManager.IMP.async(new BukkitRunnable() {
                     @Override
                     public void run() {
-                        int count = 0;
                         Collection<UUID> toRemove = new ArrayList<>();
 
                         for (Claim claim : GriefPrevention.instance.dataStore.getClaims()) {
                             if (Bukkit.getPlayer(claim.ownerID) != null && earliestPermissibleLastLogin.getTime().after(new Date(Bukkit.getPlayer(claim.ownerID).getLastPlayed()))) {
-                                count = count + 1;
                                 if (!toRemove.contains(claim.ownerID)) {
                                     toRemove.add(claim.ownerID);
-                                    Bukkit.getLogger().info(String.format("Claims for %s will be deleted", claim.ownerID));
+                                    gpu.logMessage(String.format("Claims for %s will be deleted", claim.ownerID));
                                 }
                                 continue;
-                            } else {
-                                count = count + 1;
+                            } else if(Bukkit.getPlayer(claim.ownerID) == null) {
                                 if (!toRemove.contains(claim.ownerID)) {
                                     toRemove.add(claim.ownerID);
-                                    Bukkit.getLogger().info(String.format("Claims for %s will be deleted", claim.ownerID));
+                                    gpu.logMessage(String.format("Claims for %s will be deleted", claim.ownerID));
                                 }
                             }
                         }
@@ -61,6 +58,8 @@ public class ClaimCleanUp implements CommandExecutor {
                         else action = args[1];
                         switch (action) {
                             case "check":
+                                gpu.logMessage(String.format("Total of %s/%s will be deleted", toRemove.size(), GriefPrevention.instance.dataStore.getClaims().size()));
+
                                 gpu.sendMessage(sender, "Check was specified please check console for list of claims what will be deleted");
                                 break;
                             case "regen":
@@ -71,7 +70,7 @@ public class ClaimCleanUp implements CommandExecutor {
                                 } else {
                                     toRemove.forEach(uuid -> {
                                         GriefPrevention.instance.dataStore.deleteClaimsForPlayer(uuid, false);
-                                        Bukkit.getLogger().info(String.format("Deleted claims for %s", uuid));
+                                        gpu.logMessage(String.format("Deleted claims for %s", uuid));
 
                                     });
                                 }

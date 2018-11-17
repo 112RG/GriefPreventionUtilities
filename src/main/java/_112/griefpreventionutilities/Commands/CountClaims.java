@@ -23,7 +23,6 @@ public class CountClaims implements CommandExecutor {
             World world = Bukkit.getWorld(fawePlayer.getWorld().getName());
             if (fawePlayer.getSelection() != null) {
                 Region region = new Region(fawePlayer.getSelection().getMinimumPoint(), fawePlayer.getSelection().getMaximumPoint(), world);
-                /* TODO fix async WE warning? */
                 TaskManager.IMP.async(new BukkitRunnable() {
                     @Override
                     public void run() {

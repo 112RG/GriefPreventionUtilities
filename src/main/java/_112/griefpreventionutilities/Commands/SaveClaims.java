@@ -45,12 +45,12 @@ public class SaveClaims implements CommandExecutor {
                                 world2 = Bukkit.getWorld(args[1]);
 
                                 if (!corner1.getWorld().getName().equals(args[0])) {
-                                    Bukkit.getLogger().info(MessageFormat.format("Skipping claim in {0} doesn't match specified world {1}", corner1.getWorld().getName(), world1.getName()));
+                                    GriefPreventionUtilities.getPlugin().logMessage((String.format("Skipping claim in %s doesn't match specified world %s", corner1.getWorld().getName(), world1.getName())));
                                     continue;
 
                                 }
 
-                                Bukkit.getLogger().info(MessageFormat.format("Copying claim {0}:{1} from {2} {3} {4}", claim.getOwnerName(), claim.getID(), corner1.getBlockX(), corner1.getBlockY(), corner1.getBlockZ()));
+                                GriefPreventionUtilities.getPlugin().logMessage(String.format("Copying claim %s:%s from %s %s %s", claim.getOwnerName(), claim.getID(), corner1.getBlockX(), corner1.getBlockY(), corner1.getBlockZ()));
 
                                 EditSession copyWorld = new EditSessionBuilder(world1.getName()).autoQueue(false).build();
                                 EditSession pasteWorld = new EditSessionBuilder(world2.getName()).build();
@@ -65,12 +65,12 @@ public class SaveClaims implements CommandExecutor {
                                 schem.paste(pasteWorld, to, true);
                                 pasteWorld.flushQueue();
                                 pasteWorld.fixLighting(copyRegion.polygonize(100000000));
-                                Bukkit.getLogger().info(MessageFormat.format("Copied claim {0}", claim.getID()));
+                                GriefPreventionUtilities.getPlugin().logMessage(String.format("Copied claim %s", claim.getID()));
                                 claims--;
                                 done++;
                                 if (done == 10) {
                                     done = 0;
-                                    Bukkit.getLogger().info(MessageFormat.format("{0} claims left to copy", claims));
+                                    GriefPreventionUtilities.getPlugin().logMessage(String.format("%s claims left to copy", claims));
 
                                 }
 

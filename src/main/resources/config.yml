@@ -1,0 +1,3 @@
+claimexpire:
+  #Actions include regen/restore
+  action: "regen"

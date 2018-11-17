@@ -20,7 +20,8 @@ public final class GriefPreventionUtilities extends JavaPlugin {
         this.getCommand("saveclaims").setExecutor(new SaveClaims());
         this.getCommand("edeleteclaims").setExecutor(new DeleteClaims());
         this.getCommand("countclaims").setExecutor(new CountClaims());
-        // this.getCommand("deleteallunclaimed").setExecutor(new Deleteunclaimed());
+        this.getCommand("deleteallunclaimed").setExecutor(new Deleteunclaimed());
+        plugin.saveDefaultConfig();
     }
 
     @Override
@@ -34,6 +35,15 @@ public final class GriefPreventionUtilities extends JavaPlugin {
             public void run() {
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&C&LGPU &F&L>&r " + message));
 
+            }
+        });
+    }
+
+    public void logMessage(String message){
+        TaskManager.IMP.async(new BukkitRunnable() {
+            @Override
+            public void run() {
+                Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&C&LGPU&r " + message));
             }
         });
     }
