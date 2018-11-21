@@ -14,7 +14,7 @@ Current command list is
     * "delete" will delete all claims that were shown in "check"
 * /edeletelcaims Removes all claims inside your current WE selection
 * /countclaims Counts all claims inside your current WE selection
-
+* /eclaims <player> Shows all players claims inside a GUI with extra features
 
 Current event hooks
 
