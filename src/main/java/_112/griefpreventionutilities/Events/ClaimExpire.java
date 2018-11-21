@@ -63,7 +63,7 @@ public class ClaimExpire implements Listener {
 
             Vector pos1 = new Vector(corner1.getBlockX(), world.getMaxY(), corner1.getBlockZ());
             Vector pos2 = new Vector(corner2.getBlockX(), 0, corner2.getBlockZ());
-            Region region = new CuboidRegion(pos1, pos2);
+            LocationHelper region = new CuboidRegion(pos1, pos2);
 
             editSession.regenerate(region, editSession);
             editSession.flushQueue();

@@ -1,7 +1,7 @@
 package _112.griefpreventionutilities.Commands;
 
 import _112.griefpreventionutilities.GriefPreventionUtilities;
-import _112.griefpreventionutilities.Util.Region;
+import _112.griefpreventionutilities.Utils.LocationHelper;
 import com.boydti.fawe.object.FawePlayer;
 import com.boydti.fawe.util.TaskManager;
 import me.ryanhamshire.GriefPrevention.Claim;
@@ -22,13 +22,13 @@ public class CountClaims implements CommandExecutor {
             FawePlayer fawePlayer = FawePlayer.wrap(sender);
             World world = Bukkit.getWorld(fawePlayer.getWorld().getName());
             if (fawePlayer.getSelection() != null) {
-                Region region = new Region(fawePlayer.getSelection().getMinimumPoint(), fawePlayer.getSelection().getMaximumPoint(), world);
+                LocationHelper locationHelper = new LocationHelper(fawePlayer.getSelection().getMinimumPoint(), fawePlayer.getSelection().getMaximumPoint(), world);
                 TaskManager.IMP.async(new BukkitRunnable() {
                     @Override
                     public void run() {
                         int count = 0;
                         for (Claim claim : GriefPrevention.instance.dataStore.getClaims()) {
-                            if (region.locationIsInRegion(claim.getLesserBoundaryCorner()) && region.locationIsInRegion(claim.getGreaterBoundaryCorner())) {
+                            if (locationHelper.locationIsInRegion(claim.getLesserBoundaryCorner()) && locationHelper.locationIsInRegion(claim.getGreaterBoundaryCorner())) {
                                 count++;
                             }
                         }

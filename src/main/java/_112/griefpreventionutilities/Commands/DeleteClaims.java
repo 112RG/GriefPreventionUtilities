@@ -1,7 +1,7 @@
 package _112.griefpreventionutilities.Commands;
 
 import _112.griefpreventionutilities.GriefPreventionUtilities;
-import _112.griefpreventionutilities.Util.Region;
+import _112.griefpreventionutilities.Utils.LocationHelper;
 import com.boydti.fawe.object.FawePlayer;
 import com.boydti.fawe.util.TaskManager;
 import me.ryanhamshire.GriefPrevention.Claim;
@@ -25,18 +25,18 @@ public class DeleteClaims implements CommandExecutor {
             FawePlayer fawePlayer = FawePlayer.wrap(sender);
             if (fawePlayer.getSelection() != null) {
                 World world = Bukkit.getWorld(fawePlayer.getWorld().getName());
-                Region region = new Region(fawePlayer.getSelection().getMinimumPoint(), fawePlayer.getSelection().getMaximumPoint(), world);
+                LocationHelper locationHelper = new LocationHelper(fawePlayer.getSelection().getMinimumPoint(), fawePlayer.getSelection().getMaximumPoint(), world);
                 TaskManager.IMP.async(new BukkitRunnable() {
                     @Override
                     public void run() {
                         Collection<Claim> toRemove = new ArrayList<>();
                         for (Claim claim : GriefPrevention.instance.dataStore.getClaims()) {
-                            if (region.locationIsInRegion(claim.getLesserBoundaryCorner()) || region.locationIsInRegion(claim.getGreaterBoundaryCorner())) {
+                            if (locationHelper.locationIsInRegion(claim.getLesserBoundaryCorner()) || locationHelper.locationIsInRegion(claim.getGreaterBoundaryCorner())) {
                                 toRemove.add(claim);
                             }
                         }
                         if (toRemove.size() == 0) {
-                            gpu.sendMessage(sender, "No claims inside region");
+                            gpu.sendMessage(sender, "No claims inside locationHelper");
                         }
                         toRemove.forEach(claim -> {
                             gpu.sendMessage(sender, String.format("Deleting claim &a%s", claim.getID()));

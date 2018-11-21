@@ -3,6 +3,7 @@ version: ${project.version}
 main: _112.griefpreventionutilities.GriefPreventionUtilities
 depend: [GriefPrevention, FastAsyncWorldEdit]
 authors: [_112]
+api-version: 1.13
 description: Adding those little bits to GP that are niche use
 commands:
   claimcleanup:
@@ -24,3 +25,7 @@ commands:
   deleteallunclaimed:
     permission: deleteallunclaimed
     description: Deletes all unclaimed chunks
+  eclaims:
+    permission: griefpreventionutils.eclaims
+    description: Shows a GUI of the selected players claims
+    usage: /eclaims <player>
