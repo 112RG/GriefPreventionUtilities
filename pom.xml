@@ -6,7 +6,7 @@
 
     <groupId>_112</groupId>
     <artifactId>GriefPreventionUtilities</artifactId>
-    <version>0.6-DEV</version>
+    <version>0.7-DEV</version>
     <packaging>jar</packaging>
 
     <name>GriefPreventionUtilities</name>
