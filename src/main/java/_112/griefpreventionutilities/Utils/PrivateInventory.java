@@ -74,13 +74,21 @@ public class PrivateInventory {
         return placeholder;
     }
 
-    public static ItemStack claimItem(String id, List<String> description) {
-        ItemStack claimItem = new ItemStack(Material.GRASS_BLOCK, 1);
+    public static ItemStack claimItem(Material material, String name, List<String> description) {
+        ItemStack claimItem = new ItemStack(material, 1);
         ItemMeta placeholdermeta = claimItem.getItemMeta();
-        placeholdermeta.setDisplayName(id);
+        placeholdermeta.setDisplayName(name);
         placeholdermeta.setLore(description);
         claimItem.setItemMeta(placeholdermeta);
         return claimItem;
+    }
+
+    public static ItemStack utilItem(String name, Material material){
+        ItemStack utilItem = new ItemStack(material, 1);
+        ItemMeta placeholdermeta = utilItem.getItemMeta();
+        placeholdermeta.setDisplayName(name);
+        utilItem.setItemMeta(placeholdermeta);
+        return utilItem;
     }
 
     public void setItem(ItemStack itemstack, String displayname, Integer slot, ClickRunnable executeOnClick, String... description) {
