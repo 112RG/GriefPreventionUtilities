@@ -1,5 +1,4 @@
 package _112.griefpreventionutilities;
-
 import _112.griefpreventionutilities.Commands.*;
 import _112.griefpreventionutilities.Events.ClaimExpire;
 import _112.griefpreventionutilities.Utils.PrivateInventory;
