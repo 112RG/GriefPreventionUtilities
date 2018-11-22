@@ -5,9 +5,7 @@ import _112.griefpreventionutilities.Utils.PrivateInventory;
 import _112.griefpreventionutilities.Utils.LocationHelper;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
-import me.ryanhamshire.GriefPrevention.Messages;
 import me.ryanhamshire.GriefPrevention.PlayerData;
-import me.ryanhamshire.GriefPrevention.TextMode;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -19,7 +17,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +24,13 @@ import java.util.UUID;
 import java.util.Vector;
 
 public class EClaims implements CommandExecutor {
-    GriefPreventionUtilities gpu = GriefPreventionUtilities.getPlugin();
+    private GriefPreventionUtilities gpu = GriefPreventionUtilities.getPlugin();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             if (args.length >= 1 && Bukkit.getOfflinePlayer(args[0]) != null) {
-                if(!sender.hasPermission("griefpreventionutils.eclaims.admin")) return true;
+                if (!sender.hasPermission("griefpreventionutils.eclaims.admin")) return true;
                 Vector<Claim> claims = GriefPrevention.instance.dataStore.getPlayerData(Bukkit.getOfflinePlayer(args[0]).getUniqueId()).getClaims();
                 claimGui(((Player) sender), claims);
             } else {
@@ -45,7 +42,7 @@ public class EClaims implements CommandExecutor {
     }
 
 
-    public void claimGui(Player player, Vector<Claim> claims){
+    public void claimGui(Player player, Vector<Claim> claims) {
         PlayerData playerData = GriefPrevention.instance.dataStore.getPlayerData(player.getUniqueId());
         PrivateInventory inventory = new PrivateInventory(String.format("%s: %s/%s + %s", player.getName(), playerData.getAccruedClaimBlocks(), playerData.getAccruedClaimBlocksLimit(), playerData.getBonusClaimBlocks()), 54, player.getUniqueId(), PrivateInventory.placeholder(DyeColor.BLACK, ChatColor.translateAlternateColorCodes('&', "&cPLACEHOLDER")));
         int slot = 0;
@@ -65,7 +62,7 @@ public class EClaims implements CommandExecutor {
                 public void run(InventoryClickEvent e) {
 
 
-                    if(player.hasPermission("griefpreventionutils.eclaims.admin")){
+                    if (player.hasPermission("griefpreventionutils.eclaims.admin")) {
                         utilGui(player, claim);
                     } else {
                         player.closeInventory();
@@ -78,7 +75,7 @@ public class EClaims implements CommandExecutor {
         inventory.openInventory(player);
     }
 
-    public void utilGui(Player player, Claim claim){
+    public void utilGui(Player player, Claim claim) {
         PrivateInventory inventory = new PrivateInventory(String.format("Viewing claim %s owner %s", claim.getID(), player.getName()), 54, player.getUniqueId(), PrivateInventory.placeholder(DyeColor.BLACK, "No claims no games"));
         inventory.setItem(PrivateInventory.utilItem(ChatColor.GREEN + "Teleport", Material.ENDER_PEARL), 11, new PrivateInventory.ClickRunnable() {
             @Override
@@ -113,7 +110,7 @@ public class EClaims implements CommandExecutor {
         inventory.openInventory(player);
     }
 
-    public void trustMessage(Player player, Claim claim){
+    public void trustMessage(Player player, Claim claim) {
         ArrayList<String> builders = new ArrayList<String>();
         ArrayList<String> containers = new ArrayList<String>();
         ArrayList<String> accessors = new ArrayList<String>();
@@ -124,9 +121,8 @@ public class EClaims implements CommandExecutor {
 
         permissions.append(ChatColor.GOLD + "Managers: ");
 
-        if(managers.size() > 0)
-        {
-            for(int i = 0; i < managers.size(); i++)
+        if (managers.size() > 0) {
+            for (int i = 0; i < managers.size(); i++)
                 permissions.append(gpu.getServer().getOfflinePlayer(UUID.fromString(managers.get(i))).getName() + " ");
         }
 
@@ -134,9 +130,8 @@ public class EClaims implements CommandExecutor {
         permissions = new StringBuilder();
         permissions.append(ChatColor.YELLOW + "Builders: ");
 
-        if(builders.size() > 0)
-        {
-            for(int i = 0; i < builders.size(); i++)
+        if (builders.size() > 0) {
+            for (int i = 0; i < builders.size(); i++)
                 permissions.append(gpu.getServer().getOfflinePlayer(UUID.fromString(builders.get(i))).getName() + " ");
         }
 
@@ -144,9 +139,8 @@ public class EClaims implements CommandExecutor {
         permissions = new StringBuilder();
         permissions.append(ChatColor.GREEN + "Containers: ");
 
-        if(containers.size() > 0)
-        {
-            for(int i = 0; i < containers.size(); i++)
+        if (containers.size() > 0) {
+            for (int i = 0; i < containers.size(); i++)
                 permissions.append(gpu.getServer().getOfflinePlayer(UUID.fromString(containers.get(i))).getName() + " ");
         }
 
@@ -154,42 +148,11 @@ public class EClaims implements CommandExecutor {
         permissions = new StringBuilder();
         permissions.append(ChatColor.BLUE + "Accessors: ");
 
-        if(accessors.size() > 0)
-        {
-            for(int i = 0; i < accessors.size(); i++)
+        if (accessors.size() > 0) {
+            for (int i = 0; i < accessors.size(); i++)
                 permissions.append(gpu.getServer().getOfflinePlayer(accessors.get(i)).getName() + " ");
         }
 
         gpu.sendMessage(player, permissions.toString());
-    }
-
-
-    private String trustEntryToPlayerName(String entry)
-    {
-        if(entry.startsWith("[") || entry.equals("public"))
-        {
-            return entry;
-        }
-        else
-        {
-           return Bukkit.getOfflinePlayer(entry).getName();
-        }
-    }
-
-    static String lookupPlayerName(UUID playerID)
-    {
-        //parameter validation
-        if(playerID == null) return "somebody";
-
-        //check the cache
-        OfflinePlayer player = GriefPrevention.instance.getServer().getOfflinePlayer(playerID);
-        if(player.hasPlayedBefore() || player.isOnline())
-        {
-            return player.getName();
-        }
-        else
-        {
-            return "someone(" + playerID.toString() + ")";
-        }
     }
 }
