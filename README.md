@@ -4,6 +4,7 @@
 
 **THIS PLUGIN IS IN EARLY DEVELOPMENT DO NOT RUN ON A SERVER WHICH YOU CARE ABOUT**
 
+Latest build can be found [here](https://ci.appveyor.com/project/112madgamer/griefpreventionextras/build/artifacts)
 
 The aim of this plugin is to provide extra niche addons to GriefPrevention. 
 
