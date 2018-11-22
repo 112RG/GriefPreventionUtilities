@@ -8,13 +8,29 @@
 The aim of this plugin is to provide extra niche addons to GriefPrevention. 
 
 Current command list is
+
+**saveclaims**
 * /saveclaims \<world1> \<world2> - Copys all claims from world1 to world 2 (caution as the copy doesn't check world2 and just blindley copys from world1)
+* ``griefpreventionutils.saveclaims``
+
+**claimcleanup**
 * /claimcleanup <time> <check/delete> Removes all claims where the owner has not logged in for your specified time 
     * "check" will check what claims will be deleted and log them to console
     * "delete" will delete all claims that were shown in "check"
+* ``griefpreventionutils.claimcleanup``
+
+**edeleteclaims**
 * /edeletelcaims Removes all claims inside your current WE selection
+* ``griefpreventionutils.edeleteclaims``
+
+**countclaims**
 * /countclaims Counts all claims inside your current WE selection
-* /eclaims \<player> Shows all players claims inside a GUI with extra features
+* ``griefpreventionutils.countclaims``
+
+**eclaims**
+* /eclaims \<player> Shows all players claims inside a GUI with extra features (If user has doesn't have permission **griefpreventionutils.eclaims.admin** 
+then they can only see there own claims)
+* ``griefpreventionutils.eclaims``  || ``griefpreventionutils.eclaims.admin``
 
 Current event hooks
 
