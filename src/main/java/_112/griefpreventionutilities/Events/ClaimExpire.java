@@ -4,14 +4,14 @@ import _112.griefpreventionutilities.GriefPreventionUtilities;
 import com.boydti.fawe.FaweAPI;
 import com.boydti.fawe.util.EditSessionBuilder;
 import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
-import com.sk89q.worldedit.world.World;
+//import com.sk89q.worldedit.world.World;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.events.ClaimExpirationEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -19,7 +19,7 @@ public class ClaimExpire implements Listener {
 
     @EventHandler
     public void onClaimExpire(ClaimExpirationEvent event) {
-        if(GriefPreventionUtilities.getPlugin().getConfig().getBoolean("claimexpire.enabled")){
+  /*      if(GriefPreventionUtilities.getPlugin().getConfig().getBoolean("claimexpire.enabled")){
         if(GriefPreventionUtilities.getPlugin().getConfig().get("claimexpire.action").equals("regen")){
             Claim claim = event.getClaim();
             Bukkit.getLogger().info(String.format("Claim %s:%s expired running regen at %s", claim.getOwnerName(), claim.getID().toString(), claim.getLesserBoundaryCorner().toString()));
@@ -31,17 +31,17 @@ public class ClaimExpire implements Listener {
 
             Vector pos1 = new Vector(corner1.getBlockX(), world.getMaxY(), corner1.getBlockZ());
             Vector pos2 = new Vector(corner2.getBlockX(), 0, corner2.getBlockZ());
-            Region region = new CuboidRegion(pos1, pos2);
+            CuboidRegion region = new CuboidRegion(pos1, pos2);
 
-            editSession.regenerate(region, editSession);
+            editSession.regenerate(region.getWalls(), editSession);
             editSession.flushQueue();
         }
         else if(GriefPreventionUtilities.getPlugin().getConfig().get("claimexpire.action").equals("restore")){
 
         }
+*/
+    }
 
-    }
-    }
 
     /*@EventHandler
     public void onClaimDelete(ClaimDeletedEvent event) {

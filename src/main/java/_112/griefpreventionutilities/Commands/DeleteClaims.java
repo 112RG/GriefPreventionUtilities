@@ -24,8 +24,7 @@ public class DeleteClaims implements CommandExecutor {
             GriefPreventionUtilities gpu = GriefPreventionUtilities.getPlugin();
             FawePlayer fawePlayer = FawePlayer.wrap(sender);
             if (fawePlayer.getSelection() != null) {
-                World world = Bukkit.getWorld(fawePlayer.getWorld().getName());
-                LocationHelper locationHelper = new LocationHelper(fawePlayer.getSelection().getMinimumPoint(), fawePlayer.getSelection().getMaximumPoint(), world);
+                LocationHelper locationHelper = new LocationHelper(fawePlayer.getSelection().getMinimumPoint(), fawePlayer.getSelection().getMaximumPoint(), ((Player) sender).getWorld());
                 TaskManager.IMP.async(new BukkitRunnable() {
                     @Override
                     public void run() {

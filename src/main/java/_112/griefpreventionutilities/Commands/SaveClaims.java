@@ -5,8 +5,8 @@ import com.boydti.fawe.object.schematic.Schematic;
 import com.boydti.fawe.util.EditSessionBuilder;
 import com.boydti.fawe.util.TaskManager;
 import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
+import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
@@ -52,17 +52,19 @@ public class SaveClaims implements CommandExecutor {
 
                                 EditSession copyWorld = new EditSessionBuilder(world1.getName()).autoQueue(false).build();
                                 EditSession pasteWorld = new EditSessionBuilder(world2.getName()).build();
-                                Vector pos1 = new Vector(corner1.getBlockX(), 0, corner1.getBlockZ());
-                                Vector pos2 = new Vector(corner2.getBlockX(), copyWorld.getMaxY(), corner2.getBlockZ());
+
+                                BlockVector3 pos1 = BlockVector3.at(corner1.getX(), 0,corner1.getZ());
+                                BlockVector3 pos2 = BlockVector3.at(corner2.getX(), world2.getMaxHeight(),corner2.getZ());
+
                                 CuboidRegion copyRegion = new CuboidRegion(pos1, pos2);
 
                                 BlockArrayClipboard lazyCopy = copyWorld.lazyCopy(copyRegion);
 
                                 Schematic schem = new Schematic(lazyCopy);
-                                Vector to = new Vector(corner1.getBlockX(), 0, corner1.getBlockZ());
+                                BlockVector3 to =  BlockVector3.at(corner1.getBlockX(), 0, corner1.getBlockZ());
                                 schem.paste(pasteWorld, to, true);
                                 pasteWorld.flushQueue();
-                                pasteWorld.fixLighting(copyRegion.polygonize(100000000));
+                                pasteWorld.fixLighting(copyRegion.getChunks());
                                 GriefPreventionUtilities.getPlugin().logMessage(String.format("Copied claim %s", claim.getID()));
                                 claims--;
                                 done++;

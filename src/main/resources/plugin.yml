@@ -1,7 +1,7 @@
 name: GriefPreventionUtilities
 version: ${project.version}
 main: _112.griefpreventionutilities.GriefPreventionUtilities
-depend: [GriefPrevention, FastAsyncWorldEdit]
+depend: [GriefPrevention]
 authors: [_112]
 api-version: 1.13
 description: Adding those little bits to GP that are niche use

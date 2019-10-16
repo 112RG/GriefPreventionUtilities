@@ -20,9 +20,8 @@ public class CountClaims implements CommandExecutor {
         if (sender instanceof Player) {
             GriefPreventionUtilities gpu = GriefPreventionUtilities.getPlugin();
             FawePlayer fawePlayer = FawePlayer.wrap(sender);
-            World world = Bukkit.getWorld(fawePlayer.getWorld().getName());
             if (fawePlayer.getSelection() != null) {
-                LocationHelper locationHelper = new LocationHelper(fawePlayer.getSelection().getMinimumPoint(), fawePlayer.getSelection().getMaximumPoint(), world);
+                LocationHelper locationHelper = new LocationHelper(fawePlayer.getSelection().getMinimumPoint(), fawePlayer.getSelection().getMaximumPoint(), ((Player) sender).getWorld());
                 TaskManager.IMP.async(new BukkitRunnable() {
                     @Override
                     public void run() {

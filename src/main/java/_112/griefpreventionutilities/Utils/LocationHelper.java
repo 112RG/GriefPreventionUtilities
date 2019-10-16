@@ -1,8 +1,7 @@
 package _112.griefpreventionutilities.Utils;
 
-import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.math.BlockVector3;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
@@ -19,7 +18,7 @@ public class LocationHelper {
     private double minZ;
 
 
-    public LocationHelper(Vector firstPoint, Vector secondPoint, World world) {
+    public LocationHelper(BlockVector3 firstPoint, BlockVector3 secondPoint, World world) {
         worldUniqueId = world.getUID();
 
         maxX = Math.max(firstPoint.getBlockX(), secondPoint.getX());

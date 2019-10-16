@@ -6,7 +6,7 @@
 
     <groupId>_112</groupId>
     <artifactId>GriefPreventionUtilities</artifactId>
-    <version>0.8-DEV</version>
+    <version>0.9-DEV</version>
     <packaging>jar</packaging>
 
     <name>GriefPreventionUtilities</name>
@@ -43,20 +43,20 @@
             <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
         <repository>
+            <id>fawe-repo</id>
+            <url>http://ci.athion.net/job/FastAsyncWorldEdit-Breaking/ws/mvn/</url>
+        </repository>
+        <repository>
+            <id>worldedit-worldguard-repo</id>
+            <url>http://maven.sk89q.com/repo/</url>
+        </repository>
+        <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>fawe-repo</id>
-            <url>http://ci.athion.net/job/FastAsyncWorldEdit/ws/mvn/</url>
-        </repository>
-        <repository>
-            <id>worldedit-worldguard-repo</id>
-            <url>http://maven.sk89q.com/repo/</url>
         </repository>
     </repositories>
 
@@ -78,38 +78,15 @@
             <version>latest</version>
         </dependency>
         <dependency>
+            <groupId>com.boydti</groupId>
+            <artifactId>fawe-bukkit</artifactId>
+            <version>latest</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-core</artifactId>
-            <version>6.1.3-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sk89q.worldguard</groupId>
-            <artifactId>worldguard-legacy</artifactId>
-            <version>7.0.0-20181008.132144-4</version>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.bukkit</groupId>
-                    <artifactId>bukkit</artifactId>
-                </exclusion>
-                <!--<exclusion>-->
-                <!--<groupId>com.sk89q.worldedit</groupId>-->
-                <!--<artifactId>worldedit-bukkit</artifactId>-->
-                <!--</exclusion>-->
-                <exclusion>
-                    <groupId>com.sk89q</groupId>
-                    <artifactId>commandbook</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.bstats</groupId>
-                    <artifactId>bstats-bukkit</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.sk89q.worldguard</groupId>
-            <artifactId>worldguard-core</artifactId>
-            <version>7.0.0-20181010.132528-6</version>
+            <version>7.1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
