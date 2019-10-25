@@ -26,57 +26,60 @@ public class SaveClaims implements CommandExecutor {
             Player player = (Player) sender;
             if (args.length == 2 && args[0] != null && args[1] != null) {
                 if (player.getServer().getWorld(args[0]) != null && player.getServer().getWorld(args[1]) != null) {
-                    TaskManager.IMP.async(new Runnable() {
-                        @Override
-                        public void run() {
-                            Location corner1;
-                            Location corner2;
-                            World world1;
-                            World world2;
-                            int claims = GriefPrevention.instance.dataStore.getClaims().size();
-                            int done = 0;
-                            for (Claim claim : GriefPrevention.instance.dataStore.getClaims()) {
-                                corner1 = claim.getLesserBoundaryCorner();
-                                corner2 = claim.getGreaterBoundaryCorner();
+                    TaskManager.IMP.async(() -> {
+                        Location corner1;
+                        Location corner2;
+                        World world1;
+                        World world2;
+                        world1 = Bukkit.getWorld(args[0]);
+                        world2 = Bukkit.getWorld(args[1]);
 
-                                world1 = Bukkit.getWorld(args[0]);
-                                world2 = Bukkit.getWorld(args[1]);
+                        int claims = GriefPrevention.instance.dataStore.getClaims().size();
+                        int done = 0;
 
-                                if (!corner1.getWorld().getName().equals(args[0])) {
-                                    GriefPreventionUtilities.getPlugin().logMessage((String.format("Skipping claim in %s doesn't match specified world %s", corner1.getWorld().getName(), world1.getName())));
-                                    continue;
+                        EditSession copyWorld = new EditSessionBuilder(world1.getName())
+                                .allowedRegionsEverywhere()
+                                .build();
+                        EditSession pasteWorld = new EditSessionBuilder(world2.getName())
+                                .allowedRegionsEverywhere()
+                                .build();
 
-                                }
+                        for (Claim claim : GriefPrevention.instance.dataStore.getClaims()) {
+                            corner1 = claim.getLesserBoundaryCorner();
+                            corner2 = claim.getGreaterBoundaryCorner();
 
-                                GriefPreventionUtilities.getPlugin().logMessage(String.format("Copying claim %s:%s from %s %s %s", claim.getOwnerName(), claim.getID(), corner1.getBlockX(), corner1.getBlockY(), corner1.getBlockZ()));
 
-                                EditSession copyWorld = new EditSessionBuilder(world1.getName()).autoQueue(false).build();
-                                EditSession pasteWorld = new EditSessionBuilder(world2.getName()).build();
+                            if (!corner1.getWorld().getName().equals(args[0])) {
+                                GriefPreventionUtilities.getPlugin().logMessage((String.format("Skipping claim in %s doesn't match specified world %s", corner1.getWorld().getName(), world1.getName())));
+                                continue;
+                            }
 
-                                BlockVector3 pos1 = BlockVector3.at(corner1.getX(), 0,corner1.getZ());
-                                BlockVector3 pos2 = BlockVector3.at(corner2.getX(), world2.getMaxHeight(),corner2.getZ());
+                            GriefPreventionUtilities.getPlugin().logMessage(String.format("Copying claim %s:%s from %s %s %s", claim.getOwnerName(), claim.getID(), corner1.getBlockX(), corner1.getBlockY(), corner1.getBlockZ()));
 
-                                CuboidRegion copyRegion = new CuboidRegion(pos1, pos2);
 
-                                BlockArrayClipboard lazyCopy = copyWorld.lazyCopy(copyRegion);
+                            BlockVector3 pos1 = BlockVector3.at(corner1.getX(), 0,corner1.getZ());
+                            BlockVector3 pos2 = BlockVector3.at(corner2.getX(), world2.getMaxHeight(),corner2.getZ());
 
-                                Schematic schem = new Schematic(lazyCopy);
-                                BlockVector3 to =  BlockVector3.at(corner1.getBlockX(), 0, corner1.getBlockZ());
-                                schem.paste(pasteWorld, to, true);
-                                pasteWorld.flushQueue();
-                                pasteWorld.fixLighting(copyRegion.getChunks());
-                                GriefPreventionUtilities.getPlugin().logMessage(String.format("Copied claim %s", claim.getID()));
-                                claims--;
-                                done++;
-                                if (done == 10) {
-                                    done = 0;
-                                    GriefPreventionUtilities.getPlugin().logMessage(String.format("%s claims left to copy", claims));
+                            CuboidRegion copyRegion = new CuboidRegion(pos1, pos2);
+                            BlockArrayClipboard lazyCopy = copyWorld.lazyCopy(copyRegion);
 
-                                }
+                            Schematic schem = new Schematic(lazyCopy);
+                            BlockVector3 to =  BlockVector3.at(corner1.getBlockX(), 0, corner1.getBlockZ());
+                            schem.paste(pasteWorld, to, true);
+
+                            pasteWorld.flushQueue();
+                            pasteWorld.fixLighting(copyRegion.getChunks());
+
+                            GriefPreventionUtilities.getPlugin().logMessage(String.format("Copied claim %s", claim.getID()));
+                            claims--;
+                            done++;
+                            if (done == 10) {
+                                done = 0;
+                                GriefPreventionUtilities.getPlugin().logMessage(String.format("%s claims left to copy", claims));
 
                             }
-                        }
 
+                        }
                     });
 
                 } else {

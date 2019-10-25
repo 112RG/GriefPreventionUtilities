@@ -1,10 +1,15 @@
 package _112.griefpreventionutilities.Commands;
 
 import _112.griefpreventionutilities.GriefPreventionUtilities;
+import com.boydti.fawe.util.EditSessionBuilder;
 import com.boydti.fawe.util.TaskManager;
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.regions.CuboidRegion;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -53,6 +58,11 @@ public class ClaimCleanUp implements CommandExecutor {
                         long minusTime = ((long) Integer.parseInt(args[0]));
                         minusTime *= 86400000; //days -> milliseconds
                         long borderTime = timeNow - minusTime;
+
+                        EditSession world = new EditSessionBuilder(((Player) sender).getWorld().getName())
+                                .allowedRegionsEverywhere()
+                                .build();
+
                         for (Claim claim : claims) {
                             count++;
                             try {
@@ -64,6 +74,18 @@ public class ClaimCleanUp implements CommandExecutor {
                                     if (action.equals("delete")) {
                                         toRemove.add(claim);
                                     }
+                                    if (action.equals("regen")){
+
+                                        Location corner1 = claim.getLesserBoundaryCorner();
+                                        Location corner2 = claim.getGreaterBoundaryCorner();
+
+                                        BlockVector3 pos1 = BlockVector3.at(corner1.getX(), 0,corner1.getZ());
+                                        BlockVector3 pos2 = BlockVector3.at(corner2.getX(), world.getMaxY(),corner2.getZ());
+
+                                        CuboidRegion rClaim = new CuboidRegion(pos1, pos2);
+                                        world.regenerate(rClaim, world);
+                                        toRemove.add(claim);
+                                    }
                                 }
                                 continue;
                             }
@@ -72,9 +94,32 @@ public class ClaimCleanUp implements CommandExecutor {
                                 if (action.equals("delete")) {
                                     toRemove.add(claim);
                                 }
+                                if (action.equals("regen")){
+
+                                    Location corner1 = claim.getLesserBoundaryCorner();
+                                    Location corner2 = claim.getGreaterBoundaryCorner();
+
+                                    BlockVector3 pos1 = BlockVector3.at(corner1.getX(), 0,corner1.getZ());
+                                    BlockVector3 pos2 = BlockVector3.at(corner2.getX(), world.getMaxY(),corner2.getZ());
+
+                                    CuboidRegion rClaim = new CuboidRegion(pos1, pos2);
+                                    world.regenerate(rClaim, world);
+                                    toRemove.add(claim);
+                                }
                             } else if (Bukkit.getOfflinePlayer(claim.ownerID).getLastPlayed() < borderTime) {
                                 removed++;
                                 if (action.equals("delete")) {
+                                    toRemove.add(claim);
+                                }
+                                if (action.equals("regen")){
+                                    Location corner1 = claim.getLesserBoundaryCorner();
+                                    Location corner2 = claim.getGreaterBoundaryCorner();
+
+                                    BlockVector3 pos1 = BlockVector3.at(corner1.getX(), 0,corner1.getZ());
+                                    BlockVector3 pos2 = BlockVector3.at(corner2.getX(), world.getMaxY(),corner2.getZ());
+
+                                    CuboidRegion rClaim = new CuboidRegion(pos1, pos2);
+                                    world.regenerate(rClaim, world);
                                     toRemove.add(claim);
                                 }
                             }
@@ -100,6 +145,19 @@ public class ClaimCleanUp implements CommandExecutor {
 
                                 break;
                             case "regen":
+                                if (toRemove.size() != 0) {
+                                    toRemove.forEach(remove -> {
+                                        try {
+                                            Thread.sleep(2);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                        GriefPrevention.instance.dataStore.deleteClaim(remove);
+                                    });
+                                } else {
+                                    gpu.sendMessage(sender, "No claims to delete");
+                                }
+                                gpu.sendMessage(sender, "Deleted " + removed.toString() + " claims. And regenerated them");
                                 break;
                             default:
                                 break;
